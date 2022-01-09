@@ -1,11 +1,10 @@
-const dXX = 'zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen'.split(' ');
-const dX0 = 'zero ten twenty thirty forty fifty sixty seventy eighty ninety'.split(' ');
-const d10X = 'zero ten hundred thousand million billion trillion'.split(' ');
+const d20 = 'zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen'.split(' ');
+const d1eX = 'zero ten twenty thirty forty fifty sixty seventy eighty ninety'.split(' ');
 
-module.exports = function toReadable (number) {
-  if (number < 20) return dXX[number];
-  if (number < 100) return `${dX0[Math.floor(number / 10)]}${number % 10 ? ' ' + dXX[number % 10] : ''}`;
-  if (number < 1000) return `${dXX[Math.floor(number / 100)]} hundred${ number % 100 ? ' ' + toReadable(number % 100) : '' }`;
-  // TODO: 10_000, 100_000, 1_000_000, ...
-  return number;
+function kilo(n) {
+  if (n < 20) return d20[n];
+  if (n < 100) return d1eX[n / 10 | 0] + (n % 10 ? ' ' + kilo(n % 10) : '');
+  return kilo(n / 100 | 0) + ' hundred' + (n % 100 ? ' '  + kilo(n % 100) : '');
 };
+
+module.exports = kilo;
